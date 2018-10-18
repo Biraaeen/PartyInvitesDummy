@@ -14,37 +14,27 @@ namespace WebApplication1.Controllers
         public ViewResult Index()
         {
             int hour = DateTime.Now.Hour;
-            ViewBag.Greeting = hour < 12 ? "Good Morning" : "Good Afternoon";
+            ViewBag.Greeting = hour < 12 ? "Good Morning" : "Good Afernoon";
             return View("MyView");
         }
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
 
-        //public IActionResult About()
-        //{
-        //    ViewData["Message"] = "Your application description page.";
+        [HttpGet]
+        public ViewResult RsvpForm()
+        {
+            return View();
+        }
 
-        //    return View();
-        //}
+        [HttpPost]
+        public ViewResult RsvpForm(GuestResponse guestResponse)
+        {
+            Repository.AddResponse(guestResponse);
+            return View("Thanks", guestResponse);
+        }
 
-        //public IActionResult Contact()
-        //{
-        //    ViewData["Message"] = "Your contact page.";
+        public ViewResult ListResponses()
+        {
+            return View(Repository.Responses.Where(r => r.WillAttend == true));
+        }
 
-        //    return View();
-        //}
-
-        //public IActionResult Privacy()
-        //{
-        //    return View();
-        //}
-
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
     }
 }
